@@ -1,13 +1,13 @@
-package com.auction.products_auction;
+package com.auction;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class ProductsAuctionApplication {
+public class AuctionApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(ProductsAuctionApplication.class, args);
+		SpringApplication.run(AuctionApplication.class, args);
 	}
 
 }
