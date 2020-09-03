@@ -1,7 +1,5 @@
 package com.auction.service.impl;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,8 +14,13 @@ public class UserService implements IUserService {
 	private IUserRepository userRepository;
 
 	@Override
-	public List<UserEntity> findByEmail(String email) {
+	public UserEntity findByEmail(String email) {
 		return userRepository.findByEmail(email);
+	}
+
+	@Override
+	public void save(UserEntity user) {
+		userRepository.save(user);
 	}
 
 }
