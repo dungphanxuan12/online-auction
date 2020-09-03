@@ -23,7 +23,7 @@ public class BaseEntity {
 	private Long id;
 
 	@CreatedDate
-	private Date createdDate;
+	private Date createdDate = new Date(id);
 
 	@LastModifiedDate
 	private Date lastModifiedDate;
