@@ -6,6 +6,6 @@ import org.springframework.stereotype.Repository;
 import com.auction.entity.UserEntity;
 
 @Repository
-public interface IUserRepository extends JpaRepository<UserEntity, Long>, IUserRepositoryCustom {
+public interface IUserRepository extends JpaRepository<UserEntity, Long> {
 	UserEntity findByEmail(String email);
 }

@@ -15,24 +15,16 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 
+@AllArgsConstructor
 @Getter
 @Setter
 @Entity
-@AllArgsConstructor
-@Table(
-		name = "users", 
-		indexes = {
-			@Index(
-				name = "idx_user", 
-				columnList = "email"
-			)
-		}
-)
+@Table(name = "users", indexes = { @Index(name = "idx_user", columnList = "email") })
 public class UserEntity extends BaseEntity {
 
 	@NotNull
-	@Email(message = "Invalid email address")
-	@Column(name = "email")
+	@Email(message = "Something wrong with email address")
+	@Column(name = "email", unique = true)
 	private String email;
 
 	@Pattern(regexp = "^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$")
@@ -50,11 +42,7 @@ public class UserEntity extends BaseEntity {
 	private boolean isActived;
 
 	@GeneratedValue(generator = "UUID")
-	@GenericGenerator(
-			name = "UUID",
-			strategy = "org.hibernate.id.UUIDGenerator"
-	)
+	@GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
 	@Column(name = "activationcode")
 	private String activationCode;
 }
-

@@ -12,4 +12,5 @@ public class UserDTO extends AbstractDTO {
 	private Integer age;
 	private boolean isActived;
 	private String activationCode;
+	private String jwtToken;
 }

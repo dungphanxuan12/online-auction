@@ -14,13 +14,13 @@ public class UserService implements IUserService {
 	private IUserRepository userRepository;
 
 	@Override
-	public UserEntity findByEmail(String email) {
-		return userRepository.findByEmail(email);
+	public void save(UserEntity user) {
+		userRepository.save(user);
 	}
 
 	@Override
-	public void save(UserEntity user) {
-		userRepository.save(user);
+	public UserEntity findByEmail(String email) {
+		return userRepository.findByEmail(email);
 	}
 
 }
