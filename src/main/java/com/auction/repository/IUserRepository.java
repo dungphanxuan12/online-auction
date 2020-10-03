@@ -7,5 +7,6 @@ import com.auction.entity.UserEntity;
 
 @Repository
 public interface IUserRepository extends JpaRepository<UserEntity, Long> {
+
 	UserEntity findByEmail(String email);
 }

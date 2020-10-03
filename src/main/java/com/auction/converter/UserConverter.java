@@ -9,15 +9,11 @@ import com.auction.entity.UserEntity;
 @Component
 public class UserConverter {
 
-	public static UserDTO convertToDTO(UserEntity userEntity) {
-		ModelMapper mapper = new ModelMapper();
-		UserDTO userDTO = mapper.map(userEntity, UserDTO.class);
-		return userDTO;
+	public UserDTO convertToDTO(UserEntity userEntity) {
+		return new ModelMapper().map(userEntity, UserDTO.class);
 	}
 
-	public static UserEntity convertToEntity(UserDTO userDTO) {
-		ModelMapper mapper = new ModelMapper();
-		UserEntity userEntity = mapper.map(userDTO, UserEntity.class);
-		return userEntity;
+	public UserEntity convertToEntity(UserDTO userDTO) {
+		return new ModelMapper().map(userDTO, UserEntity.class);
 	}
 }
