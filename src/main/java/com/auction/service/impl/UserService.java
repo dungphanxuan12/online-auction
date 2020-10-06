@@ -1,6 +1,13 @@
 package com.auction.service.impl;
 
+import java.time.DateTimeException;
+import java.util.Date;
+import java.util.UUID;
+
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -10,6 +17,7 @@ import com.auction.entity.UserEntity;
 import com.auction.exception.UserAlreadyExistException;
 import com.auction.repository.IUserRepository;
 import com.auction.service.IUserService;
+import com.auction.validation.impl.DateFormatValidator;
 
 @Service
 public class UserService implements IUserService {
@@ -37,17 +45,28 @@ public class UserService implements IUserService {
 	 */
 	@Transactional
 	@Override
-	public UserEntity register(UserDTO userDTO) {
-		if (isUserExist(userDTO.getEmail())) {
-			throw new UserAlreadyExistException(userDTO.getEmail());
-		}
+	public UserEntity register(@Valid UserDTO userDTO) {
+		userRegisterValidation(userDTO);
 		UserEntity userEntity = userConverter.convertToEntity(userDTO);
 
 		return userRepository.save(userEntity);
 	}
 
-	public Boolean isUserExist(String email) {
-		return userRepository.findByEmail(email) != null;
+	/**
+	 * 
+	 * @param userDTO
+	 */
+	private void userRegisterValidation(UserDTO userDTO) {
+		if (userRepository.findByEmail(userDTO.getEmail()) != null) {
+			throw new UserAlreadyExistException(userDTO.getEmail());
+		}
+		userDTO.setPassword(new BCryptPasswordEncoder().encode(userDTO.getPassword()));
+		userDTO.setCreatedDate(new Date());
+		userDTO.setActivationCode(UUID.randomUUID().toString());
+		if (!new DateFormatValidator("yyyy-MM-dd").isValid(userDTO.getDob()) && userDTO.getDob() != null) {
+			throw new DateTimeException(
+					"Error! Invalid date. Make sure that you enter the date in the format \"yyyy-MM-dd\".");
+		}
 	}
 
 }

@@ -2,26 +2,21 @@ package com.auction.entity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
 import javax.persistence.Index;
 import javax.persistence.Table;
 
-import org.hibernate.annotations.GenericGenerator;
-
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-@AllArgsConstructor
 @Getter
 @Setter
+@AllArgsConstructor
+@NoArgsConstructor
 @Entity
 @Table(name = "users", indexes = { @Index(name = "idx_user", columnList = "email") })
 public class UserEntity extends BaseEntity {
-
-	public UserEntity() {
-		super();
-	}
 
 	@Column(name = "email", unique = true)
 	private String email;
@@ -29,17 +24,18 @@ public class UserEntity extends BaseEntity {
 	@Column(name = "password")
 	private String password;
 
-	@Column(name = "fullname")
-	private String fullname;
+	@Column(name = "firstname")
+	private String firstname;
 
-	@Column(name = "age")
-	private Integer age;
+	@Column(name = "lastname")
+	private String lastname;
+
+	@Column(name = "dob")
+	private String dob;
 
 	@Column(name = "isactived")
 	private boolean isActived;
 
-	@GeneratedValue(generator = "UUID")
-	@GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
 	@Column(name = "activationcode")
 	private String activationCode;
 }

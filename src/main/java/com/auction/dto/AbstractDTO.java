@@ -1,13 +1,13 @@
 package com.auction.dto;
 
-import java.sql.Date;
+import java.util.Date;
 
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter
-public class AbstractDTO <T>{
+public class AbstractDTO<T> {
 	private Long id;
 	private Date createdDate;
 	private Date lastModifiedDate;

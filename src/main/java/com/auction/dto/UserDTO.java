@@ -24,11 +24,13 @@ public class UserDTO extends AbstractDTO<UserDTO> {
 
 	@NotNull
 	@NotEmpty
-	private String fullname;
+	private String firstname;
 
 	@NotNull
 	@NotEmpty
-	private Integer age;
+	private String lastname;
+
+	private String dob;
 
 	private boolean isActived;
 

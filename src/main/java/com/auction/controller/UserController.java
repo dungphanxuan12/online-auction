@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.auction.dto.UserDTO;
-import com.auction.exception.UserAlreadyExistException;
 import com.auction.service.IUserService;
 
 @RestController
@@ -29,9 +28,11 @@ public class UserController {
 	public ResponseEntity<?> register(@RequestBody UserDTO user) throws Exception {
 		try {
 			userService.register(user);
-		} catch (UserAlreadyExistException e) {
+		} catch (Exception e) {
 			e.printStackTrace();
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
+
 		return new ResponseEntity<>(user, HttpStatus.OK);
 	}
 
