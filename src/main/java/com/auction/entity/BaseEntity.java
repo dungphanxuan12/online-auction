@@ -1,6 +1,6 @@
 package com.auction.entity;
 
-import java.sql.Date;
+import java.util.Date;
 
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -18,12 +18,13 @@ import lombok.Setter;
 @Setter
 @MappedSuperclass
 public class BaseEntity {
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
 	@CreatedDate
-	private Date createdDate = new Date(id);
+	private Date createdDate;
 
 	@LastModifiedDate
 	private Date lastModifiedDate;

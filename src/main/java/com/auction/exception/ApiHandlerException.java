@@ -1,15 +1,14 @@
 package com.auction.exception;
 
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Date;
 
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
-
-import com.auction.exception.auth.DuplicateEmailException;
+import org.springframework.web.context.request.WebRequest;
+import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 /**
  * 
@@ -19,20 +18,32 @@ import com.auction.exception.auth.DuplicateEmailException;
  *
  */
 @RestControllerAdvice
-public class ApiHandlerException {
+public class ApiHandlerException extends ResponseEntityExceptionHandler {
 
 	/**
-	 * 
-	 * @param exception
-	 * @return
+	 * Handle any exception
 	 */
-	@ExceptionHandler(value = { DuplicateEmailException.class })
-	public ResponseEntity<Object> handleDuplicateEmail(DuplicateEmailException ex) {
-		List<String> errors = new ArrayList<String>();
-		errors.add(ex.getMessage());
-		ApiError apiError = new ApiError(HttpStatus.BAD_REQUEST, LocalDateTime.now(), ex.getMessage(), null,
-				ex, errors);
+	@ExceptionHandler(value = { Exception.class })
+	public ResponseEntity<Object> handleAnyException(Exception ex, WebRequest request) {
+		String messages = ex.getLocalizedMessage();
+		if (messages == null)
+			messages = ex.toString();
+		ApiError apiError = new ApiError(new Date(), messages, null);
 
-		return new ResponseEntity<>(apiError, HttpStatus.BAD_REQUEST);
+		return new ResponseEntity<Object>(apiError, new HttpHeaders(), HttpStatus.INTERNAL_SERVER_ERROR);
 	}
+
+	/**
+	 * Handle NullpointerException
+	 */
+	@ExceptionHandler(value = { NullPointerException.class, UserServiceException.class })
+	public ResponseEntity<Object> handleSpecificException(Exception ex, WebRequest request) {
+		String messages = ex.getLocalizedMessage();
+		if (messages == null)
+			messages = ex.toString();
+		ApiError apiError = new ApiError(new Date(), messages, null);
+
+		return new ResponseEntity<Object>(apiError, new HttpHeaders(), HttpStatus.INTERNAL_SERVER_ERROR);
+	}
+
 }
