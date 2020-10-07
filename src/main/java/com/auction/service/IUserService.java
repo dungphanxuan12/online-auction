@@ -13,4 +13,6 @@ public interface IUserService {
 	void save(UserEntity user);
 
 	UserEntity register(UserDTO userDTO);
+
+	void active(String email, String token);
 }

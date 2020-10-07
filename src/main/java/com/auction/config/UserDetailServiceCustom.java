@@ -7,7 +7,6 @@ import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import com.auction.entity.UserEntity;
@@ -33,8 +32,7 @@ public class UserDetailServiceCustom implements UserDetailsService {
 			throw new UsernameNotFoundException(email);
 		}
 
-		return new User(userEntity.getEmail(), new BCryptPasswordEncoder().encode(userEntity.getPassword()),
-				new ArrayList<>());
+		return new User(userEntity.getEmail(), userEntity.getPassword(), new ArrayList<>());
 	}
 
 }
