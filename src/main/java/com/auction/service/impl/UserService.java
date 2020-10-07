@@ -15,8 +15,11 @@ import com.auction.converter.UserConverter;
 import com.auction.dto.UserDTO;
 import com.auction.entity.UserEntity;
 import com.auction.exception.UserAlreadyExistException;
+import com.auction.exception.UserNotFoundException;
+import com.auction.exception.UserVerifyException;
 import com.auction.repository.IUserRepository;
 import com.auction.service.IUserService;
+import com.auction.utils.IEmailService;
 import com.auction.validation.impl.DateFormatValidator;
 
 @Service
@@ -28,6 +31,12 @@ public class UserService implements IUserService {
 	@Autowired
 	private UserConverter userConverter;
 
+	@Autowired
+	private IEmailService mail;
+
+	/**
+	 * save user into database
+	 */
 	@Override
 	public void save(UserEntity user) {
 		userRepository.save(user);
@@ -41,12 +50,17 @@ public class UserService implements IUserService {
 	/**
 	 * checking user has exist in database then register the user if has no and
 	 * throw UserAlreadyExistException if exist email
-	 * 
 	 */
 	@Transactional
 	@Override
 	public UserEntity register(@Valid UserDTO userDTO) {
 		userRegisterValidation(userDTO);
+		String subject = "AUCTION - VERIFY YOUR ACCOUNT";
+		String message = "http://localhost:8080/verify?token=" + userDTO.getActivationCode();
+		Boolean isSendMailSuccess = mail.sendMail(userDTO.getEmail(), subject, message);
+		if (!isSendMailSuccess) {
+			System.out.println("Send mail error");
+		}
 		UserEntity userEntity = userConverter.convertToEntity(userDTO);
 
 		return userRepository.save(userEntity);
@@ -67,6 +81,25 @@ public class UserService implements IUserService {
 			throw new DateTimeException(
 					"Error! Invalid date. Make sure that you enter the date in the format \"yyyy-MM-dd\".");
 		}
+	}
+
+	/**
+	 * verify user by token
+	 * 
+	 * @param {String} token
+	 */
+	@Override
+	public void active(String email, String token) {
+		UserEntity userEntity = findByEmail(email);
+		if (userEntity == null) {
+			throw new UserNotFoundException(email);
+		}
+		if (userEntity.getActivationCode() == token) {
+			userEntity.setActived(true);
+			save(userEntity);
+			return;
+		}
+		throw new UserVerifyException("Something went wrong during verify User with mail" + email);
 	}
 
 }
