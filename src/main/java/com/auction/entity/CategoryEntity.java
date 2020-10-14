@@ -1,7 +1,12 @@
 package com.auction.entity;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import lombok.AllArgsConstructor;
@@ -22,4 +27,7 @@ public class CategoryEntity extends BaseEntity {
 
 	@Column(name = "code")
 	private String code;
+
+	@OneToMany(mappedBy = "name", cascade = CascadeType.ALL)
+	private List<ProductEntity> products = new ArrayList<>();
 }

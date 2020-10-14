@@ -13,7 +13,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @EnableWebSecurity
-public class SecurityConfiguer extends WebSecurityConfigurerAdapter {
+public class SecurityConfigure extends WebSecurityConfigurerAdapter {
 
 	@Autowired
 	private UserDetailServiceCustom userDetailsService;
