@@ -32,7 +32,8 @@ public class AuthController {
 	ResponseEntity<?> createAuthenticationToken(@RequestBody UserDTO userDTO) throws Exception {
 		try {
 			authenticationManager
-					.authenticate(new UsernamePasswordAuthenticationToken(userDTO.getEmail(), userDTO.getPassword()));
+					.authenticate(new UsernamePasswordAuthenticationToken(
+							userDTO.getEmail(), userDTO.getPassword()));
 		} catch (BadCredentialsException e) {
 			throw new Exception("Incorrect username or password", e);
 		}

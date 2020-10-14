@@ -6,6 +6,8 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
@@ -49,11 +51,12 @@ public class ProductEntity extends BaseEntity {
 	@OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
 	private List<ImageEntity> images = new ArrayList<>();
 
-	@Column(name = "category_id")
-	private Long categoryId;
+	@ManyToOne
+	@JoinColumn(name = "category_id")
+	private CategoryEntity category;
 
 	@Column(name = "status")
-	private String status;
+	private Boolean status;
 
 	@Column(name = "branch_name")
 	private String branchName;

@@ -9,7 +9,7 @@ import lombok.Setter;
 @Setter
 public class AbstractDTO<T> {
 	private Long id;
-	private Date createdDate;
+	private Date createdDate = new Date();
 	private Date lastModifiedDate;
 	private Date lastModifiedBy;
 }
